@@ -195,6 +195,7 @@
 --[[ THE DATE MODULE ]]--
   local fmtstr  = "%x %X";
 --#if not DATE_OBJECT_AFX then
+---@class luadate
   local date = {}
   setmetatable(date, date)
 -- Version:  VMMMRRRR; V-Major, M-Minor, R-Revision;  e.g. 5.45.321 == 50450321
@@ -206,6 +207,7 @@
   end
 --#end -- not DATE_OBJECT_AFX
 --[[ THE DATE OBJECT ]]--
+---@class luadateobj
   local dobj = {}
   dobj.__index = dobj
   dobj.__metatable = dobj
@@ -500,6 +502,10 @@
   function dobj:spanminutes()  return (self.daynum*TICKSPERDAY + self.dayfrc)/TICKSPERMIN  end
   function dobj:spanhours()  return (self.daynum*TICKSPERDAY + self.dayfrc)/TICKSPERHOUR end
   function dobj:spandays()  return (self.daynum*TICKSPERDAY + self.dayfrc)/TICKSPERDAY  end
+  
+	--- seconds since 1970-01-01 00:00:00	
+  --- @return number  @unixtimestamp
+	function dobj:timestamp() return (self:spanseconds() - 62135596800) end
 
   function dobj:addyears(y, m, d)
     local cy, cm, cd = breakdaynum(self.daynum)
